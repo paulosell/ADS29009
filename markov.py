@@ -48,3 +48,21 @@ for estado in X:
     estados[estado-1] = estados[estado-1] + 1
 
 estados = np.array(estados)
+
+mudancas = []
+soma = 0
+chegou = 0
+conta = 0
+for estado in X:
+    if estado == 1:
+        conta = 1
+    if conta:
+        soma = soma +1
+    if estado == 6:
+        mudancas.append(soma)
+        soma = 0
+        conta = 0
+    
+mudancas = np.array(mudancas)
+
+print(sum(mudancas)/len(mudancas))
