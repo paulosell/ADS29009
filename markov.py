@@ -1,6 +1,27 @@
 import numpy as np
 import random
 
+
+def passos(X, inicio, fim):
+    mudancas = []
+    soma = 0
+    flag = 0
+    for estado in X:
+        if estado == inicio:
+            if flag == 0:
+                soma = 0
+                flag = 1
+        elif estado == fim and flag == 1:
+            soma = soma + 1      
+            mudancas.append(soma)
+            soma = 0
+            flag = 0
+        elif estado != fim or estado != inicio:
+            if flag == 1:
+                soma = soma + 1
+    return mudancas
+
+
 def PMFdata(N,xi,pX):
     bi = []
     x = 0
@@ -18,7 +39,7 @@ def PMFdata(N,xi,pX):
             x = xi[k]
     return x
 
-N = 1000000
+N = 100000
 p0 = [1,0,0,0,0,0,0,0,0,0]
 
 P = [[0.2, 0.0, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
@@ -49,20 +70,8 @@ for estado in X:
 
 estados = np.array(estados)
 
-mudancas = []
-soma = 0
-chegou = 0
-conta = 0
-for estado in X:
-    if estado == 1:
-        conta = 1
-    if conta:
-        soma = soma +1
-    if estado == 6:
-        mudancas.append(soma)
-        soma = 0
-        conta = 0
-    
+mudancas = passos(X, 1, 6)
 mudancas = np.array(mudancas)
 
+print(estados/N)
 print(sum(mudancas)/len(mudancas))
