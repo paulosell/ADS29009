@@ -7,16 +7,15 @@ def passos(X, inicio, fim):
     soma = 0
     flag = 0
     for estado in X:
-        if estado == inicio:
-            if flag == 0:
+        if estado == inicio and flag == 0:
                 soma = 0
                 flag = 1
         elif estado == fim and flag == 1:
             soma = soma + 1      
             mudancas.append(soma)
-            soma = 0
+            soma = 0            
             flag = 0
-        elif estado != fim or estado != inicio:
+        elif estado != fim:
             if flag == 1:
                 soma = soma + 1
     return mudancas
@@ -25,8 +24,8 @@ def passos(X, inicio, fim):
 def PMFdata(N,xi,pX):
     bi = []
     x = 0
-    M = len(xi)
-    for k in range(M-1):        
+    M = len(xi)-1
+    for k in range(M):        
         if k == 0:
             bi.append(pX[k])
         else:
@@ -73,5 +72,13 @@ estados = np.array(estados)
 mudancas = passos(X, 1, 6)
 mudancas = np.array(mudancas)
 
+print(estados)
+indice = np.where(estados==np.amax(estados))
+print(indice[0])
+
 print(estados/N)
+print()
+print("#####################################")
+print()
 print(sum(mudancas)/len(mudancas))
+print()
