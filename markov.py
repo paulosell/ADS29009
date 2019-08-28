@@ -1,30 +1,42 @@
+'''
+    27/08/2019
+    Autor: Paulo Fylippe Sell
+    Disciplina: ADS29009
+                .>.>.> Cadeias de Markov <.<.<.
+    Função PMFdata adaptada de Steven Kay Springer, 2006
+    Função dtmcfpt adaptada do pacote queueing, do software Octave
+
+'''
+
 import numpy as np
 import random
 
-
-def passos(X, inicio, fim):
-    mudancas = []
-    soma = 0
-    flag = 0
-    for estado in X:
-        if estado == inicio and flag == 0:
-                soma = 0
-                flag = 1
-        elif estado == fim and flag == 1:
-            soma = soma + 1      
-            mudancas.append(soma)
-            soma = 0            
-            flag = 0
-        elif estado != fim:
-            if flag == 1:
-                soma = soma + 1
-    return mudancas
-
+def dtmcfpt(X, dim_x, dim_y):
+    matrix = np.zeros(shape=(dim_x,dim_y))
+    for x in range(dim_x):  
+        for y in range(dim_y):   
+            counter = 0
+            flag = 0      
+            array = []     
+            for state in X:
+                if state - 1  == x and flag == 0:
+                    counter = 0
+                    flag = 1
+                elif state - 1 == y and flag == 1:
+                    counter = counter + 1      
+                    array.append(counter)
+                    counter = 0            
+                    flag = 0
+                elif state != y:
+                    if flag == 1:
+                        counter = counter + 1
+            matrix[x][y] = sum(array)/len(array)
+    return matrix
 
 def PMFdata(N,xi,pX):
     bi = []
     x = 0
-    M = len(xi)-1
+    M = len(xi)
     for k in range(M):        
         if k == 0:
             bi.append(pX[k])
@@ -41,7 +53,7 @@ def PMFdata(N,xi,pX):
 N = 100000
 p0 = [1,0,0,0,0,0,0,0,0,0]
 
-P = [[0.2, 0.0, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+P =           [[0.2, 0.0, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
 			  [0.0, 0.2, 0.3, 0.3, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0],
 			  [0.0, 0.0, 0.1, 0.0, 0.0, 0.9, 0.0, 0.0, 0.0, 0.0],
 			  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0],
@@ -52,33 +64,34 @@ P = [[0.2, 0.0, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
 			  [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
 			  [0.2, 0.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2]]
 
-xi = [1,2,3,4,5,6,7,8,9,10,11]
+xi = [1,2,3,4,5,6,7,8,9,10]
 XO = PMFdata(1,xi,p0)
 i = XO 
 X = []
 X.append(PMFdata(1,xi,P[i]))
 i = X[0]+1
+
 for n in range(1,N-1):
-    i = X[n-1]   -1 
+    i = X[n-1]-1 
     X.append(PMFdata(1,xi,P[i]))
 
-estados = [0,0,0,0,0,0,0,0,0,0]
+states = [0,0,0,0,0,0,0,0,0,0]
 
-for estado in X:
-    estados[estado-1] = estados[estado-1] + 1
+for state in X:
+    states[state-1] = states[state-1] + 1
 
-estados = np.array(estados)
+states = np.array(states)
 
-mudancas = passos(X, 1, 6)
-mudancas = np.array(mudancas)
+matrix = dtmcfpt(X,10,10)
 
-print(estados)
-indice = np.where(estados==np.amax(estados))
-print(indice[0])
-
-print(estados/N)
+print('Vetor pi de estados em regime permanente:', np.round(states/N,3))
 print()
-print("#####################################")
+print('Estado com maior ocupação: {}, com {} %  do tempo'.format(np.where(states==np.amax(states))[0], round(max(states)/N*100,3)))
 print()
-print(sum(mudancas)/len(mudancas))
+print('Estado com menor ocupação: {}, com {} %  do tempo'.format(np.where(states==np.amin(states))[0], round(min(states)/N*100,3)))
 print()
+print('Tempo médio de recorrência entre os estados 0 e 5 é de {} épocas'.format(round(matrix[0][5],3)))
+print()
+
+#print(np.round(matrix,3)) #descomente esta linha para imprimir a matriz de recorrencia
+
