@@ -11,10 +11,32 @@
 import numpy as np
 import random
 
-def dtmcfpt(X, dim_x, dim_y):
-    matrix = np.zeros(shape=(dim_x,dim_y))
-    for x in range(dim_x):  
-        for y in range(dim_y):   
+def dtmcfpt(P):  
+    N = 100000
+    p0 = [1,0,0,0,0,0,0,0,0,0]
+    m = P
+    m = np.matrix(m)
+    xi = np.arange(m.shape[0]) + 1
+    XO = PMFdata(1,xi,p0)
+    i = XO 
+    X = []
+    X.append(PMFdata(1,xi,P[i]))
+    i = X[0]+1
+
+    for n in range(1,N-1):
+        i = X[n-1]-1 
+        X.append(PMFdata(1,xi,P[i]))
+
+    states = [0,0,0,0,0,0,0,0,0,0]
+
+    for state in X:
+        states[state-1] = states[state-1] + 1   
+    P = np.matrix(P)
+    
+    matrix = np.zeros(shape=(P.shape[0],P.shape[1]))
+    
+    for x in range(P.shape[0]):  
+        for y in range(P.shape[1]):   
             counter = 0
             flag = 0      
             array = []     
@@ -31,6 +53,7 @@ def dtmcfpt(X, dim_x, dim_y):
                     if flag == 1:
                         counter = counter + 1
             matrix[x][y] = sum(array)/len(array)
+    
     return matrix
 
 def PMFdata(N,xi,pX):
@@ -50,8 +73,29 @@ def PMFdata(N,xi,pX):
             x = xi[k]
     return x
 
-N = 100000
-p0 = [1,0,0,0,0,0,0,0,0,0]
+
+def dtmc(P):
+    N = 100000
+    p0 = [1,0,0,0,0,0,0,0,0,0]
+    xi = [1,2,3,4,5,6,7,8,9,10]
+    XO = PMFdata(1,xi,p0)
+    i = XO 
+    X = []
+    X.append(PMFdata(1,xi,P[i]))
+    i = X[0]+1
+
+    for n in range(1,N-1):
+        i = X[n-1]-1 
+        X.append(PMFdata(1,xi,P[i]))
+
+    states = [0,0,0,0,0,0,0,0,0,0]
+
+    for state in X:
+        states[state-1] = states[state-1] + 1
+    states = np.array(states)
+    return states/N
+
+
 
 P =           [[0.2, 0.0, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
 			  [0.0, 0.2, 0.3, 0.3, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0],
@@ -64,31 +108,14 @@ P =           [[0.2, 0.0, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
 			  [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
 			  [0.2, 0.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2]]
 
-xi = [1,2,3,4,5,6,7,8,9,10]
-XO = PMFdata(1,xi,p0)
-i = XO 
-X = []
-X.append(PMFdata(1,xi,P[i]))
-i = X[0]+1
+states = dtmc(P)
+matrix = dtmcfpt(P)
 
-for n in range(1,N-1):
-    i = X[n-1]-1 
-    X.append(PMFdata(1,xi,P[i]))
-
-states = [0,0,0,0,0,0,0,0,0,0]
-
-for state in X:
-    states[state-1] = states[state-1] + 1
-
-states = np.array(states)
-
-matrix = dtmcfpt(X,10,10)
-
-print('Vetor pi de estados em regime permanente:', np.round(states/N,3))
+print('Vetor pi de estados em regime permanente:', np.round(states,3))
 print()
-print('Estado com maior ocupação: {}, com {} %  do tempo'.format(np.where(states==np.amax(states))[0], round(max(states)/N*100,3)))
+print('Estado com maior ocupação: {}, com {} %  do tempo'.format(np.where(states==np.amax(states))[0], round(max(states)*100,3)))
 print()
-print('Estado com menor ocupação: {}, com {} %  do tempo'.format(np.where(states==np.amin(states))[0], round(min(states)/N*100,3)))
+print('Estado com menor ocupação: {}, com {} %  do tempo'.format(np.where(states==np.amin(states))[0], round(min(states)*100,3)))
 print()
 print('Tempo médio de recorrência entre os estados 0 e 5 é de {} épocas'.format(round(matrix[0][5],3)))
 print()
