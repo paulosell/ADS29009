@@ -1,0 +1,37 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Download and Run hello.py",
+            "type": "ev3devBrowser",
+            "request": "launch",
+            "program": "/home/robot/${workspaceFolderBasename}/aa.py"
+        },
+
+        {
+            "name": "Download and Run hello.py",
+            "type": "ev3devBrowser",
+            "request": "launch",
+            "program": "/home/robot/${workspaceFolderBasename}/flask-client.py"
+        },
+        {
+            "name": "Download and Run hello.py",
+            "type": "ev3devBrowser",
+            "request": "launch",
+            "program": "/home/robot/${workspaceFolderBasename}/server.py"
+        },
+
+        {
+            "name": "Download and Run hello.py",
+            "type": "ev3devBrowser",
+            "request": "launch",
+            "program": "/home/robot/${workspaceFolderBasename}/script.sh"
+        },
+        {
+            "name": "Download and Run Current File",
+            "type": "ev3devBrowser",
+            "request": "launch",
+            "program": "/home/robot/${workspaceFolderBasename}/${relativeFile}"
+        }
+    ]
+}
