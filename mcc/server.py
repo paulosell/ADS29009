@@ -13,11 +13,17 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         data = conn.recv(1024)
         if bytes([data[0]]) == b'F':
             sound = Sound()
-            sound.beep()
+            sound.speak('Forward')
             conn.send(b'frente')
         elif bytes([data[0]]) == b'R':
+            sound = Sound()
+            sound.speak('Back')
             conn.send(b're')
         elif bytes([data[0]]) == b'D':
+            sound = Sound()
+            sound.speak('Right')
             conn.send(b'direita')
         elif bytes([data[0]]) == b'E':
+            sound = Sound()
+            sound.speak('Left')
             conn.send(b'esquerda')
