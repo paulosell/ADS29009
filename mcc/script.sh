@@ -2,5 +2,5 @@
 if [ $1 = "python" ]; then
     python3 server.py
 else
-    echo c++
+   gcc server.c -o server; ./server;
 fi

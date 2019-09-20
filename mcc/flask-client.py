@@ -10,9 +10,14 @@ app = Flask(__name__)
 con = None
 
 @app.route("/language/python", methods=['GET', 'POST'])
-def language():
+def language_python():
     process = Popen(['./script.sh', 'python'], stdout=PIPE, stderr=PIPE)
-    return "socket aberto"
+    return "socket python aberto"   
+
+@app.route("/language/c", methods=['GET', 'POST'])
+def language_c():
+    process = Popen(['./script.sh', 'c'], stdout=PIPE, stderr=PIPE)
+    return "socket c aberto"
 
 @app.route("/frente", methods=['GET', 'POST'])
 def frente():
