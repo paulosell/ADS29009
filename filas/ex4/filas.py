@@ -13,6 +13,7 @@ for i in range (len(N)):
     En += N[i]*pn[i]
 
 
+
 W = En/lamb
 print("Tempo médio que uma pessoa permanece no sistema é de {} horas".format(W))
 
@@ -33,7 +34,7 @@ mi = 17
 p = lamb/mi
 
 pi_0 = 1-p
-pi_5 = (p**5) * pi_0
+pi_5 = 1 -((p**4) * pi_0) - ((p**3) * pi_0 ) - ((p**2) * pi_0) - ((p**1) * pi_0) - pi_0
 En = lamb/(mi-lamb)
 Er = En/lamb
 U = p
