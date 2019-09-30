@@ -20,9 +20,9 @@ void func(int sockfd){
 		// read the message from client and copy it in buffer 
 		read(sockfd, buff, sizeof(buff)); 
 		if 		(strncmp("F", buff, 1) == 0) n = 1; 		//frente	
-		else if (strncmp("R", buff, 1) == 0) n = 2;			//tras
-		else if (strncmp("E", buff, 1) == 0) n = 3;			//esquerda
-		else if (strncmp("D", buff, 1) == 0) n = 4;			//direita
+		else if (strncmp("B", buff, 1) == 0) n = 2;			//tras
+		else if (strncmp("L", buff, 1) == 0) n = 3;			//esquerda
+		else if (strncmp("R", buff, 1) == 0) n = 4;			//direita
 		else if (strncmp("exit", buff, 4) == 0) n = 5;		//encerrar
 		//n = atoi(buff);
 		//printf("%d\n", n);
@@ -30,40 +30,40 @@ void func(int sockfd){
 			case 1:
 				//.........
 				bzero(buff, MAX); 
-				strcpy(buff, "Frente ok");
+				strcpy(buff, "Frente ok\n");
 				write(sockfd, buff, sizeof(buff)); 
 				break;
 			case 2:
 				//.........
 				bzero(buff, MAX); 
-				strcpy(buff, "Tras ok");
+				strcpy(buff, "Tras ok\n");
 				write(sockfd, buff, sizeof(buff)); 
 				break;
 			case 3:
 				//.........
 				bzero(buff, MAX); 
-				strcpy(buff, "Esquerda ok");
+				strcpy(buff, "Esquerda ok\n");
 				write(sockfd, buff, sizeof(buff)); 
 				break;
 			case 4:
 				//.........
 				bzero(buff, MAX); 
-				strcpy(buff, "Direita ok");
+				strcpy(buff, "Direita ok\n");
 				write(sockfd, buff, sizeof(buff)); 
 				break;
 			case 5:
-				strcpy(buff, "exit"); 
+				strcpy(buff, "exit\n"); 
 				write(sockfd, buff, sizeof(buff));
 				strcpy(buff, "exit");
 				break;
 			default:
 				bzero(buff, MAX);
-				strcpy(buff, "nok"); 
+				strcpy(buff, "nok\n"); 
 				write(sockfd, buff, sizeof(buff));
 				break;
 		}
 		if (strncmp("exit", buff, 4) == 0) { 
-			printf("Server Exit..."); 
+			printf("Server Exit...\n"); 
 			break; 
 		} 
 	} 
