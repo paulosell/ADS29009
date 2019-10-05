@@ -39,6 +39,7 @@ for i in range(3):  ## loop geral
     EW.append(round(ew,2))
 
 print()
+
 print('Tempos no sistema: {}'.format(EW))
 print('Tempos na fila: {}'.format(EWq))
 
