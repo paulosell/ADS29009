@@ -37,20 +37,22 @@ class lcm:
 
 
 class prng:
-    
-    def __init__(self):
-        pass
-        
+      
     def modo(self, **kwargs):
         if kwargs.get('modo') == 'lcm':
             return lcm(seed = kwargs.get('seed'), a = kwargs.get('a'), c = kwargs.get('c'), m= kwargs.get('m'))
 
 
 
-def fatorial(x):
-    if x == 0:
-        x = 1
-    fat = x
-    for i in range(x-1,1,-1):
-        fat = fat * i
-    return fat
+class fat:
+    
+    def fatorial(self, x):
+        if x == 0:
+            x = 1
+        fat = x
+        for i in range(x-1,1,-1):
+            fat = fat * i
+        return fat
+
+fatorial = fat()
+prng = prng()
