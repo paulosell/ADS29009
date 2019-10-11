@@ -55,4 +55,10 @@ class fat:
         return fat
 
 fatorial = fat()
+class sin:
+    
+    def seno(self, x):
+        return round((x - ((x**3)/fatorial.fatorial(3)) + ((x**5)/fatorial.fatorial(5)) - ((x**7)/fatorial.fatorial(7)) + ((x**9)/fatorial.fatorial(9)) - ((x**11)/fatorial.fatorial(11)) + ((x**13)/fatorial.fatorial(13)) - ((x**15)/fatorial.fatorial(15)) + ((x**17)/fatorial.fatorial(17))) - ((x**19)/fatorial.fatorial(19)) +((x**21)/fatorial.fatorial(21)),2)
+
+seno = sin()
 prng = prng()
