@@ -33,7 +33,7 @@ def re():
     data = ""
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect(('localhost', 65432))
-        s.send(b'R00000000000000')
+        s.send(b'B00000000000000')
         data = s.recv(1024)
     return data
 
@@ -42,7 +42,7 @@ def esquerda():
     data = ""
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect(('localhost', 65432))
-        s.send(b'E00000000000000')
+        s.send(b'L00000000000000')
         data = s.recv(1024)
     return data
 
@@ -51,7 +51,7 @@ def direita():
     data = ""
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect(('localhost', 65432))
-        s.send(b'D00000000000000')
+        s.send(b'R00000000000000')
         data = s.recv(1024)
     return data
 
