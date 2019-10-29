@@ -1,4 +1,4 @@
-from event import event
+from events import events
 
 class simulation:
 
@@ -7,6 +7,8 @@ class simulation:
         self.eventQueue = []
 
     def run(self):
+        ev = event(0.1, 'zero', 'chegada')
+        self.scheduleEvent(ev)
         while not self.eventQueue:
             nextEvent = self.eventQueue.pop()
             self.simtime += nextEvent.t

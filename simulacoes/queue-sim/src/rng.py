@@ -41,8 +41,8 @@ class prng:
     def modo(self, **kwargs):
         if kwargs.get('modo') == 'lcm':
             return lcm(seed = kwargs.get('seed'), a = kwargs.get('a'), c = kwargs.get('c'), m= kwargs.get('m'))
-
-
+        if kwargs.get('mddo') == 'exp':
+            return exp(seed = kwargs.get('seed'), a = kwargs.get('a'), c = kwargs.get('c'), m= kwargs.get('m'))
 
 class fat:
     
