@@ -1,14 +1,26 @@
-from event import event
+from src.event import Event
+from src.rng import prng
 
-class events(event):
+class Events(Event):
     
     def __init__(self,t, fila, tipo):
         self.time = t
         self.fila = fila
         self.tipo = tipo
+
     
-    def processEvent(self):
-        print("Processando evento no tempo {}".format(self.time))
-        if (self.tipo == 'chegada'):
-            # se server livre criar evento de saida senao colocar na fila
-            # criar evento de entrada
+    def criar_chegada(self,fila='eventos'):
+        return Events(self.exp.exp(),fila, 'chegada')
+
+    def criar_saida(self, fila='eventos'):
+        return Events(self.exp.exp(), fila, 'saida')
+    
+
+    def processEvent(self,server):
+        num = self.u.ulcm()
+        if num < 0.5:
+            return self.criar_chegada()
+        else:
+            return self.criar_saida()
+        
+                

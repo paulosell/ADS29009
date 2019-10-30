@@ -1,3 +1,5 @@
+import math
+
 class lcm:
     def __init__(self, **kwargs):
         self.seed = kwargs.get('seed')
@@ -35,14 +37,22 @@ class lcm:
         raise Exception('Verifique parametros da classe')
     
 
+class exp:
+    def __init__(self, **kwargs):
+        self.uni = lcm(seed=kwargs.get('seed'), a = 1103515245, c = 12345, m = 2147483648)
+        self.lamb = kwargs.get('lamb')
+    
+    def exp(self):
+        return math.log(self.uni.ulcm())/-self.lamb
+    
 
 class prng:
       
     def modo(self, **kwargs):
         if kwargs.get('modo') == 'lcm':
             return lcm(seed = kwargs.get('seed'), a = kwargs.get('a'), c = kwargs.get('c'), m= kwargs.get('m'))
-        if kwargs.get('mddo') == 'exp':
-            return exp(seed = kwargs.get('seed'), a = kwargs.get('a'), c = kwargs.get('c'), m= kwargs.get('m'))
+        if kwargs.get('modo') == 'exp':
+            return exp(seed = kwargs.get('seed'), lamb = kwargs.get('lamb'))
 
 class fat:
     
