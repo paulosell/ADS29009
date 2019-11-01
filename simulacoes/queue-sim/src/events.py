@@ -7,20 +7,13 @@ class Events(Event):
         self.time = t
         self.fila = fila
         self.tipo = tipo
+        self.exp = prng.modo(modo='exp',seed=14511, lamb=0.1)
+        
 
-    
-    def criar_chegada(self,fila='eventos'):
-        return Events(self.exp.exp(),fila, 'chegada')
-
-    def criar_saida(self, fila='eventos'):
-        return Events(self.exp.exp(), fila, 'saida')
-    
-
-    def processEvent(self,server):
-        num = self.u.ulcm()
-        if num < 0.5:
-            return self.criar_chegada()
-        else:
-            return self.criar_saida()
+    def processEvent(self):
+        chegada = Events(self.exp.exp(), 'eventos', 'chegada')
+        saida  = Events(self.exp.exp(), 'eventos', 'saida')
+        return chegada, saida
+        
         
                 

@@ -10,8 +10,6 @@ fila = PriorityQueue()
 
 simulador = SimuladorFilas()
 
-simulador.first_run()
-primeiro_evento = Events(0, 'eventos', 'chegada')
-simulador.scheduleEvent(primeiro_evento)
+simulador.gera_eventos()
 simulador.run()
 

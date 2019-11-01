@@ -5,105 +5,96 @@ from src.events import Events
 class SimuladorFilas(Simulador):
 
     def __init__(self):
-        super().__init__()
-        self.queue_zero = []
-        self.queue_um_events   = []
-        self.queue_dois_events = []
-        self.queue_um = []
-        self.queue_dois = []
-        self.server_zero = False
-        self.server_um = False
-        self.server_dois = False
+        super().__init__()     
         self.u = prng.modo(modo='lcm', seed=116432, a = 1103515245, c = 12345, m = 2147483648)
         self.exp = prng.modo(modo='exp',seed=14511, lamb=0.1)
     
-    def first_run(self):
+    def gera_eventos(self):
         eventos_gerados = 0
-        while eventos_gerados < 100000:
-            num = self.u.ulcm()
-            if num < 0.5:
-                self.scheduleEvent(Events(self.exp.exp(), 'eventos', 'chegada'))
-            else:
-                self.scheduleEvent(Events(self.exp.exp(), 'eventos', 'saida'))
+        while eventos_gerados < 100000:           
+            self.scheduleEvent(Events(self.exp.exp(), 'eventos', 'chegada'))           
+            self.scheduleEvent(Events(self.exp.exp(), 'eventos', 'saida'))
             eventos_gerados = eventos_gerados + 1
+        self.scheduleEvent(Events(0, 'eventos', 'chegada'))
         
             
 
     def run(self):
         eventos = 0
+        queue_um_events   = []
+        queue_dois_events = []
+        queue_um = []
+        queue_dois = []
+        queue_zero = []
+        server_zero = False
+        server_um = False
+        server_dois= False
         print(self.eventQueue.qsize())
         while not self.eventQueue.empty():
-            if len(self.queue_zero) > 0 and self.server_zero == False:
-                nextEvent = self.queue_zero[0]
+            if len(queue_zero) > 0 and server_zero == False:
+                nextEvent = queue_zero[0]
                 
-                self.queue_zero.remove(self.queue_zero[0]) 
+                queue_zero.remove(queue_zero[0]) 
             else:
                 nextEvent = self.eventQueue.get()[1]
                 
             if(nextEvent.tipo == 'chegada'):
-                if self.server_zero == True:
-                    self.queue_zero.append(nextEvent)
+                if server_zero == True:
+                    queue_zero.append(nextEvent)
                 else:
-                    self.server_zero = True
+                   server_zero = True
             else:
                 eventos = eventos + 1
-                self.server_zero = False
+                server_zero = False
                 num = self.u.ulcm()
                 if num <= 0.5:
-                    num = self.u.ulcm()
-                    if num < 0.5:
-                        self.queue_um_events.append(Events(self.exp.exp(), 'fila1', 'chegada'))
-                    else:
-                        self.queue_um_events.append(Events(self.exp.exp(), 'fila1', 'saida'))
+                    chegada, saida = nextEvent.processEvent()
+                    queue_um_events.append(chegada)                  
+                    queue_um_events.append(saida)
                 elif num > 0.5 and num <= 0.8:
-                    num = self.u.ulcm()
-                    if num < 0.5:
-                        self.queue_dois_events.append(Events(self.exp.exp(), 'fila2', 'chegada'))
-                    else:
-                        self.queue_dois_events.append(Events(self.exp.exp(), 'fila2', 'saida'))
+                    chegada, saida = nextEvent.processEvent()
+                    queue_dois_events.append(chegada)                  
+                    queue_dois_events.append(saida)
                 else: 
                     pass
 
-        self.queue_dois_events.append(Events(0, 'fila2', 'chegada'))  
-        self.queue_um_events.append(Events(0, 'fila1', 'chegada'))
-        
-        while len(self.queue_um_events) > 0:
+        queue_dois_events.append(Events(0, 'fila2', 'chegada'))  
+        queue_um_events.append(Events(0, 'fila1', 'chegada'))
+        print(len(queue_dois_events))
+        print(len(queue_um_events))
 
-            if len(self.queue_um) > 0 and self.server_um == False:
-                nextEvent1 = self.queue_um[0]                
-                self.queue_um.remove(self.queue_um[0]) 
+        while len(queue_um_events) > 0:
+            if len(queue_um) > 0 and server_um == False:
+                nextEvent1 = queue_um[0]                
+                queue_um.remove(queue_um[0]) 
             else:
-                nextEvent1 = self.queue_um_events[0]
-                self.queue_um_events.remove(self.queue_um_events[0])
+                nextEvent1 = queue_um_events[0]
+                queue_um_events.remove(queue_um_events[0])
                 
             if(nextEvent1.tipo == 'chegada'):
-                if self.server_um == True:
-                    self.queue_um.append(nextEvent1)
+                if server_um == True:
+                    queue_um.append(nextEvent1)
                 else:
-                    self.server_um = True
+                    server_um = True
             else:
                 eventos = eventos + 1
-                self.server_um = False
+                server_um = False
 
-        while len(self.queue_dois_events) > 0:
-    
-            if len(self.queue_dois) > 0 and self.server_dois == False:
-                nextEvent1 = self.queue_dois[0]                
-                self.queue_dois.remove(self.queue_dois[0]) 
+        while len(queue_dois_events) > 0:    
+            if len(queue_dois) > 0 and server_dois== False:
+                nextEvent1 = queue_dois[0]                
+                queue_dois.remove(queue_dois[0]) 
             else:
-                nextEvent1 = self.queue_dois_events[0]
-                self.queue_dois_events.remove(self.queue_dois_events[0])
+                nextEvent1 = queue_dois_events[0]
+                queue_dois_events.remove(queue_dois_events[0])
                 
             if(nextEvent1.tipo == 'chegada'):
-                if self.server_dois == True:
-                    self.queue_dois.append(nextEvent1)
+                if server_dois== True:
+                    queue_dois.append(nextEvent1)
                 else:
-                    self.server_dois = True
+                    server_dois= True
             else:
                 eventos = eventos + 1
-                self.server_dois = False
+                server_dois= False
 
-        print(eventos)
-        print(len(self.queue_um_events))
-        print(len(self.queue_dois_events))
-            
+     
