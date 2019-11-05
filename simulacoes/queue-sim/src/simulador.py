@@ -7,8 +7,8 @@ class Simulador:
         self.eventQueue = PriorityQueue()
 
     def run(self):
-        while not self.eventQueue:
-            nextEvent = self.eventQueue.pop()
+        while not self.eventQueue:            
+            nextEvent = self.eventQueue.get()
             self.simtime += nextEvent.t
             nextEvent.processEvent()
     

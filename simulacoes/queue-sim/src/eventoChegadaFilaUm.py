@@ -1,7 +1,7 @@
 from src.event import Event
 from src.rng import prng
 
-class Events(Event):
+class EventoChegadaFilaUm(Event):
     
     def __init__(self,t, fila, tipo):
         self.time = t
