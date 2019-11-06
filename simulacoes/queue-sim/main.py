@@ -3,13 +3,14 @@ from src.events import Events
 from queue import PriorityQueue
 from src.rng import prng
 from src.eventoChegadaFilaZero import EventoChegadaFilaZero
+from src.eventoChegadaFilaUm import EventoChegadaFilaUm
 
-exp = prng.modo(modo='exp',seed=141, lamb=0.3)
+
 fila = PriorityQueue()
-
-
 simulador = SimuladorFilas()
 primeiroEvento = EventoChegadaFilaZero(0)
-simulador.scheduleEvent((primeiroEvento.time, primeiroEvento))
+segundoEvento = EventoChegadaFilaUm(1.1)
+fila.put((primeiroEvento.time,primeiroEvento))
+fila.put((segundoEvento.time, segundoEvento))
+simulador.scheduleEvent(primeiroEvento)
 simulador.run()
-

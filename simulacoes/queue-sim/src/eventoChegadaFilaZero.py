@@ -18,8 +18,10 @@ class EventoChegadaFilaZero(Event):
                 simulador.queue_zero.append(self)
             else:
                 simulador.server_zero = True
-                saida = EventoSaidaFilaZero(simulador.simtime+simulador.exp.exp())
-                simulador.scheduleEvent((saida.time,saida))
+                time = simulador.simtime+simulador.servico_zero.exp()
+                
+                saida = EventoSaidaFilaZero(time)
+                simulador.scheduleEvent(saida)
     
         
                 

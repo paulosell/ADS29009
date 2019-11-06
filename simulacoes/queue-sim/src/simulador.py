@@ -9,7 +9,7 @@ class Simulador:
     def run(self):
         while not self.eventQueue:            
             nextEvent = self.eventQueue.get()
-            self.simtime += nextEvent.t
+            self.simtime += nextEvent.time
             nextEvent.processEvent()
     
     def scheduleEvent(self, newEvent):

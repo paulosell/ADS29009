@@ -6,9 +6,13 @@ class SimuladorFilas(Simulador):
 
     def __init__(self):
         super().__init__()     
-        self.u = prng.modo(modo='lcm', seed=116432, a = 1103515245, c = 12345, m = 2147483648)
-        self.exp = prng.modo(modo='exp',seed=14511, lamb=0.1)
-        self.eventos = 0
+        self.u = prng.modo(modo='lcm', seed=11646632, a = 1103515245, c = 12345, m = 2147483648)
+        self.chegada_zero = prng.modo(modo='exp',seed=0, lamb=0.9)
+        self.chegada_um = prng.modo(modo='exp',seed=1, lamb=0.3)
+        self.chegada_dois = prng.modo(modo='exp',seed=2, lamb=0.5)
+        self.servico_zero = prng.modo(modo='exp',seed=3, lamb=0.6)
+        self.servico_um = prng.modo(modo='exp',seed=4, lamb=0.1)
+        self.servico_dois = prng.modo(modo='exp',seed=5, lamb=0.4)        
         self.queue_um_events   = []
         self.queue_dois_events = []
         self.queue_um = []
@@ -17,18 +21,12 @@ class SimuladorFilas(Simulador):
         self.server_zero = False
         self.server_um = False
         self.server_dois= False
-    
-    def gera_eventos(self):
-        eventos_gerados = 0
-        while eventos_gerados < 100000:           
-            self.scheduleEvent(Events(self.exp.exp(), 'eventos', 'chegada'))           
-            self.scheduleEvent(Events(self.exp.exp(), 'eventos', 'saida'))
-            eventos_gerados = eventos_gerados + 1
-        self.scheduleEvent(Events(0, 'eventos', 'chegada'))
-                    
+        self.eventos = 0
+        self.eventos1 = 0
+        self.eventos2 = 0                   
 
-   def run(self):
-        while not self.eventQueue:            
-            nextEvent = self.eventQueue.get()
-            self.simtime += nextEvent.t
-            nextEvent.processEvent(simulador)
+    def run(self):
+        while self.eventos < 10:
+            nextEvent = self.eventQueue.get()[1]
+            self.simtime += nextEvent.time
+            nextEvent.processEvent(self)

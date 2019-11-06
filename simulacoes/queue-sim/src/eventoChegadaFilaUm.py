@@ -1,40 +1,30 @@
 from src.event import Event
 from src.rng import prng
-
+from src.eventoSaidaFilaUm import EventoSaidaFilaUm
 class EventoChegadaFilaUm(Event):
     
-    def __init__(self,t, fila, tipo):
-        self.time = t
-        self.fila = fila
-        self.tipo = tipo
-        self.exp = prng.modo(modo='exp',seed=14511, lamb=0.1)
+    def __init__(self,t):
+        super().__init__(t)     
         
+    def processEvent(self, simulador):        
+        if(len(simulador.queue_um) > 0 and simulador.server_um == False):
+            nextEvent = simulador.queue_um[0]            
+            simulador.queue_um.remove(simulador.queue_um[0])      
+            nextEvent.processEvent(simulador)
+            simulador.queue_um.append(self)
+        else:
+            if simulador.server_um == True:
+                simulador.queue_um.append(self)
+            else:
+                simulador.server_um = True
+                time = simulador.simtime+simulador.servico_um.exp()
+                saida = EventoSaidaFilaUm(time)
+                simulador.scheduleEvent(saida)
+                
         
         
 
-    def processEvent(self, simulador, num):        
-        if(self.tipo == 'chegada'):
-            if simulador.server_zero == True:
-                simulador.queue_zero.append(self)
-            else:
-                simulador.server_zero = True
-        else:
-            simulador.eventos = simulador.eventos + 1
-            simulador.server_zero = False
-               
-            if num <= 0.5:                
-                chegada = Events(self.exp.exp(), 'fila1', 'chegada')
-                saida = Events(self.exp.exp(), 'fila1', 'saida')
-                simulador.queue_um_events.append(chegada)                  
-                simulador.queue_um_events.append(saida)
-            elif num > 0.5 and num <= 0.8:
-                
-                chegada = Events(self.exp.exp(), 'fila2', 'chegada')
-                saida = Events(self.exp.exp(), 'fila2', 'saida')
-                simulador.queue_dois_events.append(chegada)                  
-                simulador.queue_dois_events.append(saida)
-            else: 
-                pass
+    
         
         
                 
