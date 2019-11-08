@@ -9,9 +9,6 @@ class Events(Event):
         self.tipo = tipo
         self.exp = prng.modo(modo='exp',seed=14511, lamb=0.1)
         
-        
-        
-
     def processEvent(self, simulador, num):        
         if(self.tipo == 'chegada'):
             if simulador.server_zero == True:

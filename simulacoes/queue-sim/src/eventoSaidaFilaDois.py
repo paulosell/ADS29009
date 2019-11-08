@@ -8,8 +8,12 @@ class EventoSaidaFilaDois(Event):
         super().__init__(t) 
 
     def processEvent(self, simulador):  
-        simulador.eventos2 = simulador.eventos2+1      
-        simulador.server_dois = False
-
-    
+        print(len(simulador.queue_dois))
+        if(len(simulador.queue_dois) > 0):
+            simulador.server_dois = True           
+            simulador.queue_dois.pop()
+            simulador.eventos2 = simulador.eventos2+1    
+        else:      
+            simulador.eventos2 = simulador.eventos2+1    
+            simulador.server_dois = False
         
