@@ -9,27 +9,25 @@ class EventoSaidaFilaZero(Event):
     def __init__(self,t):
         super().__init__(t)
     
-    def processEvent(self, simulador):       
-        simulador.server_zero = False   
-        num = simulador.u.ulcm()           
-        
+    def processEvent(self, simulador):  
+        num = simulador.u.ulcm()                   
         if num <= 0.5:
             rdn =  simulador.chegada_um.exp()
             chegadaFilaUm = EventoChegadaFilaUm(simulador.simtime+rdn)                       
             simulador.scheduleEvent(chegadaFilaUm)
+            simulador.eventos1 = simulador.eventos1 + 1
         elif num > 0.5 and num <= 0.8:
-            
-            rdn =  simulador.chegada_dois.exp() 
-            time =  simulador.simtime + simulador.chegada_dois.exp()            
+            rdn =  simulador.chegada_dois.exp()            
             chegadaFilaDois = EventoChegadaFilaDois(simulador.simtime+rdn)                       
             simulador.scheduleEvent(chegadaFilaDois)
+            simulador.eventos2 = simulador.eventos2 + 1
         else: 
-           pass
+            pass
         
-        if(len(simulador.queue_zero) > 0):
-            simulador.server_zero = True    
-            simulador.queue_zero.pop()
-
+        if(len(simulador.queue_zero) > 0):  
+           simulador.queue_zero.pop(0)
+        else:
+            simulador.server_zero = False
         simulador.eventos = simulador.eventos+1
         from src.eventoChegadaFilaZero import EventoChegadaFilaZero
         rdn =  simulador.chegada_zero.exp()

@@ -8,9 +8,9 @@ class EventoChegadaFilaDois(Event):
       
     def processEvent(self, simulador):    
         if simulador.server_dois == True:
-            simulador.queue_dois.append(self)
+            simulador.queue_dois.append(1)
         else:
             simulador.server_dois = True
-            saida = EventoSaidaFilaDois(simulador.simtime+simulador.servico_dois.exp())
-            simulador.scheduleEvent(saida)
+        saida = EventoSaidaFilaDois(simulador.simtime+simulador.servico_dois.exp())
+        simulador.scheduleEvent(saida)
 

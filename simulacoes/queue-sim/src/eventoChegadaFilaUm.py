@@ -8,12 +8,12 @@ class EventoChegadaFilaUm(Event):
         
     def processEvent(self, simulador):     
         if simulador.server_um == True:
-            simulador.queue_um.append(self)   
+            simulador.queue_um.append(1)   
         else:
             simulador.server_um = True
-            time = simulador.simtime+simulador.servico_um.exp()
-            saida = EventoSaidaFilaUm(time)
-            simulador.scheduleEvent(saida)
+        time = simulador.simtime+simulador.servico_um.exp()
+        saida = EventoSaidaFilaUm(time)
+        simulador.scheduleEvent(saida)
        
                     
         
