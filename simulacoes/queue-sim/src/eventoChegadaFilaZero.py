@@ -4,17 +4,18 @@ from src.eventoSaidaFilaZero import EventoSaidaFilaZero
 
 class EventoChegadaFilaZero(Event):
     
-    def __init__(self,t):
-        super().__init__(t)
+    def __init__(self,t,i):
+        super().__init__(t,i)
+
         
 
     def processEvent(self, simulador): 
         if simulador.server_zero == True:
-            simulador.queue_zero.append(1)
+            simulador.queue_zero.append(self.time)
         else:
             simulador.server_zero = True
         time = simulador.simtime+simulador.servico_zero.exp()
-        saida = EventoSaidaFilaZero(time)
+        saida = EventoSaidaFilaZero(time,self.id)
         simulador.scheduleEvent(saida)
 
         

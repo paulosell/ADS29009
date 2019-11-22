@@ -1,4 +1,3 @@
-
 from queue import PriorityQueue
 class Simulador:
 

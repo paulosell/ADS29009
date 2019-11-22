@@ -1,6 +1,5 @@
 from src.simulador import Simulador
 from src.rng import prng
-from src.events import Events
 
 class SimuladorFilas(Simulador):
 
@@ -22,6 +21,7 @@ class SimuladorFilas(Simulador):
         self.eventos = 0
         self.eventos1 = 0
         self.eventos2 = 0 
+        
 
     def run(self):
         while self.eventos  < 1000:

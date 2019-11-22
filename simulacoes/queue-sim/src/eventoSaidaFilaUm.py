@@ -4,8 +4,8 @@ from src.rng import prng
 
 class EventoSaidaFilaUm(Event):
 
-    def __init__(self,t):
-       super().__init__(t) 
+    def __init__(self,t,i):
+       super().__init__(t,i) 
 
     def processEvent(self, simulador):  
         if len(simulador.queue_um) > 0:      

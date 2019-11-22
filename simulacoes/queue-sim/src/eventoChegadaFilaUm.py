@@ -3,16 +3,16 @@ from src.rng import prng
 from src.eventoSaidaFilaUm import EventoSaidaFilaUm
 class EventoChegadaFilaUm(Event):
     
-    def __init__(self,t):
-        super().__init__(t)     
+    def __init__(self,t,i):
+        super().__init__(t,i)     
         
     def processEvent(self, simulador):     
         if simulador.server_um == True:
-            simulador.queue_um.append(1)   
+            simulador.queue_um.append(self.time)   
         else:
             simulador.server_um = True
         time = simulador.simtime+simulador.servico_um.exp()
-        saida = EventoSaidaFilaUm(time)
+        saida = EventoSaidaFilaUm(time,self.id)
         simulador.scheduleEvent(saida)
        
                     
