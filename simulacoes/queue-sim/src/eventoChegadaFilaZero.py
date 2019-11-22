@@ -6,6 +6,7 @@ class EventoChegadaFilaZero(Event):
     
     def __init__(self,t):
         super().__init__(t)
+        
 
     def processEvent(self, simulador): 
         if simulador.server_zero == True:

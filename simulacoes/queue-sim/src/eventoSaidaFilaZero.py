@@ -28,6 +28,7 @@ class EventoSaidaFilaZero(Event):
            simulador.queue_zero.pop(0)
         else:
             simulador.server_zero = False
+            
         simulador.eventos = simulador.eventos+1
         from src.eventoChegadaFilaZero import EventoChegadaFilaZero
         rdn =  simulador.chegada_zero.exp()
