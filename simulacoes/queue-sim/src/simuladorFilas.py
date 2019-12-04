@@ -21,11 +21,12 @@ class SimuladorFilas(Simulador):
         self.eventos = 0
         self.eventos1 = 0
         self.eventos2 = 0 
-        
+
 
     def run(self):
         while self.eventos  < 1000:
             nextEvent = self.eventQueue.get()[1]
+            
             self.simtime = (nextEvent.time - self.simtime) + self.simtime
             nextEvent.processEvent(self)
         

@@ -10,13 +10,15 @@ class EventoChegadaFilaZero(Event):
         
 
     def processEvent(self, simulador): 
+         
+        print('processando chegada 0')
         if simulador.server_zero == True:
             simulador.queue_zero.append(self.time)
         else:
             simulador.server_zero = True
-        time = simulador.simtime+simulador.servico_zero.exp()
-        saida = EventoSaidaFilaZero(time,self.id)
-        simulador.scheduleEvent(saida)
+            time = simulador.simtime+simulador.servico_zero.exp()
+            saida = EventoSaidaFilaZero(time,self.id)
+            simulador.scheduleEvent(saida)
 
         
                 

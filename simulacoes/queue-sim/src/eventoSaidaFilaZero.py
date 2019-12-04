@@ -9,7 +9,8 @@ class EventoSaidaFilaZero(Event):
     def __init__(self,t,i):
         super().__init__(t,i)
     
-    def processEvent(self, simulador):  
+    def processEvent(self, simulador): 
+        print('processando saida 0') 
         num = simulador.u.ulcm()                   
         if num <= 0.5:
             rdn =  simulador.chegada_um.exp()
@@ -25,7 +26,10 @@ class EventoSaidaFilaZero(Event):
             pass
         
         if(len(simulador.queue_zero) > 0):  
-           simulador.queue_zero.pop(0)
+            simulador.queue_zero.pop(0)
+            time = simulador.simtime+simulador.servico_zero.exp()
+            saida = EventoSaidaFilaZero(time,self.id)
+            simulador.scheduleEvent(saida)
         else:
             simulador.server_zero = False
             
