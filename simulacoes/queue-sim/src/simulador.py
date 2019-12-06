@@ -12,5 +12,4 @@ class Simulador:
             nextEvent.processEvent()
     
     def scheduleEvent(self, newEvent):
-        
         self.eventQueue.put((newEvent.time, newEvent))

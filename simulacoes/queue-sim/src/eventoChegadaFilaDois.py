@@ -7,11 +7,12 @@ class EventoChegadaFilaDois(Event):
       super().__init__(t,i)
       
     def processEvent(self, simulador):    
-        print('processando chegada 2')
         if simulador.server_dois == True:
-            simulador.queue_dois.append(self.time)
+            simulador.queue_dois.append(self)
         else:
             simulador.server_dois = True
-            saida = EventoSaidaFilaDois(simulador.simtime+simulador.servico_dois.exp(),self.id)
+            time = simulador.simtime+simulador.servico_dois.exp()
+            saida = EventoSaidaFilaDois(time,self.id)
             simulador.scheduleEvent(saida)
+            simulador.fila_soma_dois.append(time-self.time)
 

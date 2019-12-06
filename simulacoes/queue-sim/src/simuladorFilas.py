@@ -22,17 +22,29 @@ class SimuladorFilas(Simulador):
         self.eventos1 = 0
         self.eventos2 = 0 
 
+        self.fila_tempos_zero = []
+        self.fila_soma = []
+
+        self.fila_tempos_um = []
+        self.fila_soma_um = []
+
+        self.fila_tempos_dois = []
+        self.fila_soma_dois= []
 
     def run(self):
-        while self.eventos  < 1000:
+        while self.eventos  < 1000000:
             nextEvent = self.eventQueue.get()[1]
             
             self.simtime = (nextEvent.time - self.simtime) + self.simtime
             nextEvent.processEvent(self)
         
+        print(len(self.fila_soma))
         print(self.eventos)
         print(self.eventos1)
         print(self.eventos2)
+        print(sum(self.fila_soma)/len(self.fila_soma))
+        print(sum(self.fila_soma_um)/len(self.fila_soma_um))
+        print(sum(self.fila_soma_dois)/len(self.fila_soma_dois))
       
      
             

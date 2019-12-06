@@ -10,7 +10,6 @@ class EventoSaidaFilaZero(Event):
         super().__init__(t,i)
     
     def processEvent(self, simulador): 
-        print('processando saida 0') 
         num = simulador.u.ulcm()                   
         if num <= 0.5:
             rdn =  simulador.chegada_um.exp()
@@ -26,10 +25,12 @@ class EventoSaidaFilaZero(Event):
             pass
         
         if(len(simulador.queue_zero) > 0):  
-            simulador.queue_zero.pop(0)
+            e = simulador.queue_zero.pop(0)
             time = simulador.simtime+simulador.servico_zero.exp()
-            saida = EventoSaidaFilaZero(time,self.id)
-            simulador.scheduleEvent(saida)
+            saida = EventoSaidaFilaZero(time,e.id)
+            simulador.scheduleEvent(saida)  
+            simulador.fila_soma.append(time-e.time)
+    
         else:
             simulador.server_zero = False
             
@@ -38,5 +39,11 @@ class EventoSaidaFilaZero(Event):
         rdn =  simulador.chegada_zero.exp()
         chegadaFilaZero = EventoChegadaFilaZero(simulador.simtime+rdn,simulador.eventos)                       
         simulador.scheduleEvent(chegadaFilaZero)
+""" 
+        for ids in simulador.fila_tempos_zero:
+            if ids[0] == self.id:
+                dif = self.time - ids[1] 
+                print(dif)
+                simulador.fila_soma.append(dif) """
     
                 

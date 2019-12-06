@@ -7,14 +7,14 @@ class EventoChegadaFilaUm(Event):
         super().__init__(t,i)     
         
     def processEvent(self, simulador):     
-        print('processando chegada 1')
         if simulador.server_um == True:
-            simulador.queue_um.append(self.time)   
+            simulador.queue_um.append(self)   
         else:
             simulador.server_um = True
             time = simulador.simtime+simulador.servico_um.exp()
             saida = EventoSaidaFilaUm(time,self.id)
             simulador.scheduleEvent(saida)
+            simulador.fila_soma_um.append(time-self.time)
        
                     
         
