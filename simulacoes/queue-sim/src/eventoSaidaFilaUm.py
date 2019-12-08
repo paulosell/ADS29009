@@ -17,8 +17,8 @@ class EventoSaidaFilaUm(Event):
             simulador.fila_soma_um.append(time-e.time)  
         else:            
             simulador.server_um = False
-        
-        
+
+      
         
 
 

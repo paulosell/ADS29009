@@ -19,6 +19,7 @@ class EventoChegadaFilaZero(Event):
             saida = EventoSaidaFilaZero(time,self.id)
             simulador.scheduleEvent(saida)
             simulador.fila_soma.append(time-self.time)
+      
 
         
                 
