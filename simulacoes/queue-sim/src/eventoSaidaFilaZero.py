@@ -13,12 +13,12 @@ class EventoSaidaFilaZero(Event):
         num = simulador.u.ulcm()                   
         if num <= 0.5:
             rdn =  simulador.chegada_um.exp()
-            chegadaFilaUm = EventoChegadaFilaUm(simulador.simtime+rdn,self.id)                       
+            chegadaFilaUm = EventoChegadaFilaUm(simulador.simtime,self.id)                       
             simulador.scheduleEvent(chegadaFilaUm)
             simulador.eventos1 = simulador.eventos1 + 1
         elif num > 0.5 and num <= 0.8:
             rdn =  simulador.chegada_dois.exp()            
-            chegadaFilaDois = EventoChegadaFilaDois(simulador.simtime+rdn,self.id)                       
+            chegadaFilaDois = EventoChegadaFilaDois(simulador.simtime,self.id)                       
             simulador.scheduleEvent(chegadaFilaDois)
             simulador.eventos2 = simulador.eventos2 + 1
         else: 
